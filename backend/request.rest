@@ -1,0 +1,27 @@
+GET http://localhost:5000/users
+
+###
+GET http://localhost:5000/users/1
+
+###
+POST http://localhost:5000/users
+Content-Type: application/json
+
+{
+    "judul": "TUGAS PRAKTIKUM TEKNOLOGI CLOUD COMPUTING",
+    "catatan": "MEMBUAT WEB SERVICE TEMA NOTES",
+    "kategori": "BELAJAR"
+}
+
+###
+PATCH http://localhost:5000/users/1
+Content-Type: application/json
+
+{
+    "judul": "KEBUTUHAN BULAN JANUARI",
+    "catatan": "BAYAR UKT, BAYAR KOS",
+    "kategori": "PRIBADI"
+}
+
+###
+DELETE http://localhost:5000/users/2
