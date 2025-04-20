@@ -1,14 +1,2 @@
 runtime: nodejs20
 service: default
-instance_class: F1
-
-handlers:
-  - url: /
-    static_files: dist/index.html
-    upload: dist/index.html
-
-  - url: /(.*)
-    static_files: dist/\1
-    upload: dist/(.*)
-
-default_expiration: "1h"  # Set default expiration time for static files (optional)
