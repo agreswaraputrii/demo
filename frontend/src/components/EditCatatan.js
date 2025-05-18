@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { BASE_URL } from "../utils";
 
-const EditUser = () => {
+const EditCatatan = () => {
   const [judul, setJudul] = useState("");
   const [catatan, setCatatan] = useState("");
   const [kategori, setKategori] = useState("Pribadi");
@@ -11,25 +11,25 @@ const EditUser = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    getUserById();
+    getCatatanById();
   }, []);
 
-  const updateUser = async (e) => {
+  const updateCatatan = async (e) => {
     e.preventDefault();
     try {
-      await axios.patch(`${BASE_URL}/users/${id}`, {
+      await axios.patch(`${BASE_URL}/catatan/${id}`, {
         judul,
         catatan,
         kategori,
       });
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       console.log(error);
     }
   };
 
-  const getUserById = async () => {
-    const response = await axios.get(`${BASE_URL}/users/${id}`);
+  const getCatatanById = async () => {
+    const response = await axios.get(`${BASE_URL}/catatan/${id}`);
     setJudul(response.data.judul);
     setCatatan(response.data.catatan);
     setKategori(response.data.kategori);
@@ -75,7 +75,7 @@ const EditUser = () => {
     <div style={containerStyle}>
       <div style={cardStyle}>
         <h1 style={{ fontSize: "24px", fontWeight: "bold" }}>✏️ Edit Catatan</h1>
-        <form onSubmit={updateUser}>
+        <form onSubmit={updateCatatan}>
           <div>
             <label>Judul Catatan</label>
             <input
@@ -116,4 +116,4 @@ const EditUser = () => {
   );
 };
 
-export default EditUser;
+export default EditCatatan;

@@ -1,16 +1,15 @@
-GET http://localhost:5000/users
+GET http://localhost:5000/catatan
 
 ###
 GET http://localhost:5000/users/1
 
 ###
-POST http://localhost:5000/users
+POST http://localhost:5000/login
 Content-Type: application/json
 
 {
-    "judul": "TUGAS PRAKTIKUM TEKNOLOGI CLOUD COMPUTING",
-    "catatan": "MEMBUAT WEB SERVICE TEMA NOTES",
-    "kategori": "BELAJAR"
+    "email": "putri@gmail",
+    "password": "12345"
 }
 
 ###

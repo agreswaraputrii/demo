@@ -3,32 +3,32 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { BASE_URL } from "../utils";
 
-const UserList = () => {
-  const [users, setUser] = useState([]);
+const CatatanList = () => {
+  const [catatan, setCatatan] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedCatatan, setSelectedCatatan] = useState(null);
 
   useEffect(() => {
-    getUsers();
+    getCatatan();
   }, []);
 
-  const getUsers = async () => {
-    const response = await axios.get(`${BASE_URL}/users`);
-    setUser(response.data);
+  const getCatatan = async () => {
+    const response = await axios.get(`${BASE_URL}/catatan`);
+    setCatatan(response.data);
   };
 
-  const confirmDelete = (user) => {
-    setSelectedUser(user);
+  const confirmDelete = (catatan) => {
+    setSelectedCatatan(catatan);
     setShowModal(true);
   };
 
-  const deleteUser = async () => {
-    if (selectedUser) {
+  const deleteCatatan = async () => {
+    if (selectedCatatan) {
       try {
-        await axios.delete(`${BASE_URL}/users/${selectedUser.id}`);
-        getUsers();
+        await axios.delete(`${BASE_URL}/catatan/${selectedCatatan.id}`);
+        getCatatan();
         setShowModal(false);
-        setSelectedUser(null);
+        setSelectedCatatan(null);
       } catch (error) {
         console.log(error);
       }
@@ -90,7 +90,7 @@ const UserList = () => {
       <div style={cardStyle}>
         <h1 style={titleStyle}>📒 Daftar Catatan ✨</h1>
         <Link
-          to={`add`}
+          to={`/add`}
           style={{ ...buttonStyle, background: "#ffcc00", color: "black", display: "inline-block", marginBottom: "10px" }}
         >
           ➕ Tambah Catatan
@@ -106,22 +106,22 @@ const UserList = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => (
-              <tr key={user.id} style={{ background: index % 2 === 0 ? "#f9f9f9" : "white" }}>
+            {catatan.map((catatan, index) => (
+              <tr key={catatan.id} style={{ background: index % 2 === 0 ? "#f9f9f9" : "white" }}>
                 <td style={thTdStyle}>{index + 1}</td>
-                <td style={thTdStyle}>{user.judul}</td>
-                <td style={thTdStyle}>{user.catatan}</td>
-                <td style={thTdStyle}>{user.kategori}</td>
+                <td style={thTdStyle}>{catatan.judul}</td>
+                <td style={thTdStyle}>{catatan.catatan}</td>
+                <td style={thTdStyle}>{catatan.kategori}</td>
                 <td style={{ ...thTdStyle, textAlign: "center" }}>
                   <div style={{ display: "flex", justifyContent: "center", gap: "8px" }}>
                     <Link
-                      to={`edit/${user.id}`}
+                      to={`/edit/${catatan.id}`}
                       style={{ ...buttonStyle, background: "#3498db", color: "white" }}
                     >
                       ✏️ Edit
                     </Link>
                     <button
-                      onClick={() => confirmDelete(user)}
+                      onClick={() => confirmDelete(catatan)}
                       style={{ ...buttonStyle, background: "#e74c3c", color: "white" }}
                     >
                       🗑️ Hapus
@@ -141,9 +141,9 @@ const UserList = () => {
         }}>
           <div style={{ background: "white", padding: "20px", borderRadius: "8px", textAlign: "center" }}>
             <h2>Apakah Anda yakin ingin menghapus catatan ini?</h2>
-            <p><b>{selectedUser?.judul}</b></p>
+            <p><b>{selectedCatatan?.judul}</b></p>
             <div style={{ marginTop: "10px" }}>
-              <button onClick={deleteUser} style={{ padding: "10px", background: "#e74c3c", color: "white", borderRadius: "6px", marginRight: "10px" }}>
+              <button onClick={deleteCatatan} style={{ padding: "10px", background: "#e74c3c", color: "white", borderRadius: "6px", marginRight: "10px" }}>
                 ✅ Hapus
               </button>
               <button onClick={() => setShowModal(false)} style={{ padding: "10px", background: "#3498db", color: "white", borderRadius: "6px" }}>
@@ -157,4 +157,4 @@ const UserList = () => {
   );
 };
 
-export default UserList;
+export default CatatanList;

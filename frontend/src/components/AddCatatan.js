@@ -3,21 +3,29 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils";
 
-const AddUser = () => {
+const AddCatatan = () => {
   const [judul, setJudul] = useState("");
   const [catatan, setCatatan] = useState("");
   const [kategori, setKategori] = useState("Pribadi");
+  const [msg, setMsg] = useState("");
   const navigate = useNavigate();
 
-  const saveUser = async (e) => {
+  const saveCatatan = async (e) => {
     e.preventDefault();
+
+    // ✅ Validasi input
+    if (judul.trim() === "" || catatan.trim() === "") {
+      setMsg("Judul dan Isi Catatan tidak boleh kosong.");
+      return;
+    }
+
     try {
-      await axios.post(`${BASE_URL}/users`, {
+      await axios.post(`${BASE_URL}/catatan`, {
         judul,
         catatan,
         kategori,
       });
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       console.log(error);
     }
@@ -46,6 +54,7 @@ const AddUser = () => {
     marginTop: "5px",
     borderRadius: "6px",
     border: "none",
+    outline: "none"
   };
 
   const buttonStyle = {
@@ -56,15 +65,17 @@ const AddUser = () => {
     fontWeight: "bold",
     background: "#ffcc00",
     color: "black",
-    marginTop: "10px"
+    marginTop: "20px"
   };
 
   return (
     <div style={containerStyle}>
       <div style={cardStyle}>
-        <h1 style={{ fontSize: "24px", fontWeight: "bold" }}>📝 Tambah Catatan Baru</h1>
-        <form onSubmit={saveUser}>
-          <div>
+        <h2>📝 Tambah Catatan Baru</h2>
+        {msg && <p style={{ color: "#ffcc00", fontWeight: "bold" }}>{msg}</p>}
+
+        <form onSubmit={saveCatatan}>
+          <div style={{ textAlign: "left", marginTop: "15px" }}>
             <label>Judul Catatan</label>
             <input
               type="text"
@@ -74,30 +85,36 @@ const AddUser = () => {
               placeholder="Judul"
             />
           </div>
-          <div>
+
+          <div style={{ textAlign: "left", marginTop: "15px" }}>
             <label>Isi Catatan</label>
             <textarea
-              style={{ ...inputStyle, height: "100px" }}
+              style={inputStyle}
               value={catatan}
               onChange={(e) => setCatatan(e.target.value)}
               placeholder="Catatan"
+              rows={5}
             ></textarea>
           </div>
-          <div>
+
+          <div style={{ textAlign: "left", marginTop: "15px" }}>
             <label>Kategori Catatan</label>
-            <select style={inputStyle} value={kategori} onChange={(e) => setKategori(e.target.value)}>
+            <select
+              style={inputStyle}
+              value={kategori}
+              onChange={(e) => setKategori(e.target.value)}
+            >
               <option value="Pribadi">Pribadi</option>
               <option value="Pekerjaan">Pekerjaan</option>
               <option value="Pendidikan">Pendidikan</option>
             </select>
           </div>
-          <div>
-            <button type="submit" style={buttonStyle}>✅ Simpan</button>
-          </div>
+
+          <button type="submit" style={buttonStyle}>✅ Simpan</button>
         </form>
       </div>
     </div>
   );
 };
 
-export default AddUser;
+export default AddCatatan;
